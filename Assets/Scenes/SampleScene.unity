@@ -246,6 +246,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 2
+  _attackcooldown: 0.5
+  _animator: {fileID: 700401934}
+  _isAttacking: 0
+  _lastAttackTime: 0
 --- !u!61 &262167959
 BoxCollider2D:
   m_ObjectHideFlags: 0
