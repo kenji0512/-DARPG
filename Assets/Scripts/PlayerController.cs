@@ -1,75 +1,81 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //移動速度の設定
-    [SerializeField] public float _moveSpeed = 2f;
-    [SerializeField] public float _attackcooldown = 0.5f;
-    //Playerの状態管理
+    [SerializeField] public float _moveSpeed = 2f; // 移動速度
+    [SerializeField] public float _attackCooldown = 0.5f; // 攻撃のクールダウン時間
     private Rigidbody2D _rb;
     private Vector2 _moveInput;
-    private Animator _animator; // Animatorコンポーネント
+    [SerializeField] public Animator _weaponAnim;
+    [SerializeField] public Animator _playerAnim;
     private bool _isAttacking = false;
-    private float _lastAttacTime = 0;
+    [SerializeField] public float _lastAttackTime = 0f;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
+        _playerAnim = GetComponent<Animator>();
+        _weaponAnim = GetComponent<Animator>();
+        _rb = GetComponent<Rigidbody2D>();
+        if (_playerAnim == null)
+        {
+            _playerAnim = GetComponent<Animator>();
+        }
+
+        if (_weaponAnim == null)
+        {
+            _weaponAnim = GetComponent<Animator>(); // 必要であれば初期化
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("Fire1") && !_isAttacking && Time.time >= _lastAttacTime + _attackcooldown)
-        {
-            Attack();
-        }
-        if (!_isAttacking)
-        {
-            //水平と垂直方向の入力を取得
-            float moveX = Input.GetAxis("Horizontal");
-            float moveY = Input.GetAxis("Vertical");
+        HandleMovement();
 
-            //入力をベクトルにまとめる
-            _moveInput = new Vector2(moveX, moveY).normalized;
-
-            // アニメーションパラメータを設定
-            _animator.SetFloat("Horizontal", _moveInput.x);
-            _animator.SetFloat("Vertical", _moveInput.y);
-        }
-
-
+        HandleAttack();
     }
+
     void FixedUpdate()
     {
-        if (_isAttacking)
+        // 攻撃中は移動を無効化
+        if (!_isAttacking)
         {
-            // Rigidbody2Dを使ってプレイヤーを移動させる
             _rb.MovePosition(_rb.position + _moveInput * _moveSpeed * Time.fixedDeltaTime);
         }
     }
-
-    private void Attack()
+    private void HandleMovement()//移動処理
     {
-        // 攻撃モーションを開始
-        _animator.SetTrigger("Attack");
+        if (!_isAttacking)
+        {
+            float moveX = Input.GetAxis("Horizontal");
+            float moveY = Input.GetAxis("Vertical");
+            _moveInput = new Vector2(moveX, moveY).normalized;
+            _playerAnim.SetFloat("Horizontal", _moveInput.x);
+            _playerAnim.SetFloat("Vertical", _moveInput.y);
+        }
+    }
+    private void HandleAttack()//攻撃発動処理
+    {
+        if (Input.GetButtonDown("Fire1") && !_isAttacking && Time.time >= _lastAttackTime + _attackCooldown)
+        {
+            Attack();
+        }
+    }
+    private void Attack()//攻撃処理
+    {
+        // 攻撃Blend Treeを有効化する
+        _weaponAnim.SetFloat("Horizontal", _moveInput.x);
+        _weaponAnim.SetFloat("Vertical", _moveInput.y);
+        Debug.Log($"Attack Direction: Horizontal={_moveInput.x}, Vertical={_moveInput.y}");
         _isAttacking = true;
-        _lastAttacTime = Time.time;
-
-        // 攻撃アニメーションの終了後に攻撃状態を解除する
-        StartCoroutine(ResetAttackState());
+        _lastAttackTime = Time.time;
     }
 
-    private IEnumerator ResetAttackState()
+    // アニメーションイベントで呼ばれる関数
+    public void OnAttackAnimationEnd()
     {
-        // 攻撃アニメーションの終了まで待機（アニメーションの長さに応じて調整）
-        yield return new WaitForSeconds(0.5f); // 0.5秒はアニメーションの再生時間に合わせて調整
-
+        Debug.Log("Attack ended");
         _isAttacking = false; // 攻撃状態を解除
     }
 }
