@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c982c7dda73254eb509a151cccbc12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 2
+  _moveSpeed: 4.75
   _attackCooldown: 0.5
   _weaponAnim: {fileID: 700401934}
   _playerAnim: {fileID: 262167955}
@@ -41510,6 +41510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 262167954}
   _speed: 2
+  _chaseRange: 5
 --- !u!95 &1909075909
 Animator:
   serializedVersion: 5
