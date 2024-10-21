@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CurrentHP
 {
     [SerializeField] public float _moveSpeed = 2f; // 移動速度
     [SerializeField] public float _attackCooldown = 0.5f; // 攻撃のクールダウン時間
@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private bool _isAttacking = false;
     [SerializeField] public float _lastAttackTime = 0f;
 
-    void Start()
+    private void Start()
     {
+        base.Start();
         _rb = GetComponent<Rigidbody2D>();
         _playerAnim = GetComponent<Animator>();
         _weaponAnim = GetComponent<Animator>();
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
 
-        HandleAttack();
+        //HandleAttack();
     }
 
     void FixedUpdate()
@@ -70,6 +71,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"Attack Direction: Horizontal={_moveInput.x}, Vertical={_moveInput.y}");
         _isAttacking = true;
         _lastAttackTime = Time.time;
+
+        Damage();
     }
 
     // アニメーションイベントで呼ばれる関数
