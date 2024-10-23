@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : CurrentHP
 {
     [SerializeField] GameObject _player = null;
     [SerializeField] float _speed = 1.0f;
@@ -52,10 +52,18 @@ public class EnemyController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Collision with: Player");
+            // プレイヤーにダメージを与える処理
+            CurrentHP playerHP = collision.gameObject.GetComponent<CurrentHP>();
+            if (playerHP != null)
+            {
+                playerHP.Damage(1); // 1のダメージ
+            }
             //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             //if (playerController != null)
             //{
-                _currentHP.Damage();
+            //    Debug.Log("Collision with: " + collision.gameObject.name);
+            //    _currentHP.Damage();
             //}
         }
     }

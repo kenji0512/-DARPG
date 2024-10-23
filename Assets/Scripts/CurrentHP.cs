@@ -4,7 +4,7 @@ using DG.Tweening;
 
 public class CurrentHP : MonoBehaviour
 {
-    [SerializeField] private int _maxHp = 5; // 最大HP
+    [SerializeField] private int _maxHp = 10; // 最大HP
     [SerializeField] private int _hp; // 現在のHP
     [SerializeField] private Slider _hpSlider; // PlayerのHP表示用スライダー（Enemyには使用しない）
 
@@ -41,6 +41,12 @@ public class CurrentHP : MonoBehaviour
         if (_hpSlider != null)
         {
             _hpSlider.DOValue(_hp, 0.5f); // 0.5秒でHPの値にスムーズに変化
+                                          // DOTweenでスライダーの値をアニメーションで減らす
+            _hpSlider.DOValue(_hp, 0.5f).OnUpdate(() =>
+            {
+                // アニメーションの進行状況をデバッグログに出力
+                Debug.Log("Current HP slider value: " + _hpSlider.value);
+            });
         }
     }
 
