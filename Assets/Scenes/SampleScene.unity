@@ -281,7 +281,6 @@ GameObject:
   - component: {fileID: 262167956}
   - component: {fileID: 262167955}
   - component: {fileID: 262167961}
-  - component: {fileID: 262167962}
   - component: {fileID: 262167960}
   - component: {fileID: 262167959}
   m_Layer: 0
@@ -466,28 +465,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHp: 10
-  _hp: 5
+  _hp: 0
   _hpSlider: {fileID: 659227475}
   _moveSpeed: 4.75
   _attackCooldown: 0.5
   _weaponAnim: {fileID: 700401934}
   _playerAnim: {fileID: 262167955}
   _lastAttackTime: 0
---- !u!114 &262167962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 262167954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 222ef30576aa383458a1d4d8526bb322, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHp: 5
-  _hp: 0
-  _hpSlider: {fileID: 659227475}
 --- !u!1 &265834973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1037,7 +1021,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 774495615}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 10
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -72740,6 +72724,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d02058eaff962d04b9c17bb20bb9cf31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxHp: 5
+  _hp: 0
+  _hpSlider: {fileID: 0}
   _player: {fileID: 262167954}
   _speed: 2
   _chaseRange: 5
