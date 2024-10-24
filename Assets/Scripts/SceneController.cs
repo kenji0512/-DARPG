@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
-    public Collider ChangeScene;
+    public Collider2D ChangeScene;
+    public string NextStageScene;
     public Button StartScene;
     public string SceneA;
     public Button GameScene;
@@ -55,5 +56,20 @@ public class SceneController : MonoBehaviour
     {
         _loadingUI.SetActive(true);
         StartCoroutine(LoadNextScene());
+    }
+    public void OnTriggerEnter2D(Collider2D other)
+    {
+        // プレイヤーなど、特定のタグを持つオブジェクトが入った場合にシーンを移行
+        if (other.CompareTag("Player"))  // "Player"タグがついたオブジェクトで判定
+        {
+            Debug.Log("Player entered trigger, switching scene.");
+            SceneManager.LoadScene(NextStageScene);  // シーンを切り替える
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("OnCollisionEnter");
+
+        SceneManager.LoadScene(NextStageScene);
     }
 }
