@@ -11,36 +11,30 @@ public class PlayerController : CurrentHP
     [SerializeField] public Animator _playerAnim;
     private bool _isAttacking = false;
     [SerializeField] public float _lastAttackTime = 0f;
+    [SerializeField] public GameObject _bulletprefab;
+    [SerializeField] public Transform _firePoint;
 
     private void Start()
     {
         base.Start();
         _rb = GetComponent<Rigidbody2D>();
         _playerAnim = GetComponent<Animator>();
-        _weaponAnim = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody2D>();
-        if (_playerAnim == null)
-        {
-            _playerAnim = GetComponent<Animator>();
-        }
-
-        if (_weaponAnim == null)
-        {
-            _weaponAnim = GetComponent<Animator>(); // 必要であれば初期化
-        }
     }
 
     void Update()
     {
-        HandleMovement();
+        if (GameManager.Instance.GetGameState() == GameManager.GameState.Playing)
+        {
+            HandleMovement();
 
-        //HandleAttack();
-    }
+            HandleAttack();
+        }
+     }
 
     void FixedUpdate()
     {
         // 攻撃中は移動を無効化
-        if (!_isAttacking)
+        if (!_isAttacking && GameManager.Instance.GetGameState() == GameManager.GameState.Playing)
         {
             _rb.MovePosition(_rb.position + _moveInput * _moveSpeed * Time.fixedDeltaTime);
         }
@@ -60,19 +54,23 @@ public class PlayerController : CurrentHP
     {
         if (Input.GetButtonDown("Fire1") && !_isAttacking && Time.time >= _lastAttackTime + _attackCooldown)
         {
-            Attack();
+            ShootBullet();
+            _lastAttackTime = Time.time;
         }
     }
-    private void Attack()//攻撃処理
+    private void ShootBullet()
     {
-        // 攻撃Blend Treeを有効化する
-        _weaponAnim.SetFloat("Horizontal", _moveInput.x);
-        _weaponAnim.SetFloat("Vertical", _moveInput.y);
-        Debug.Log($"Attack Direction: Horizontal={_moveInput.x}, Vertical={_moveInput.y}");
-        _isAttacking = true;
-        _lastAttackTime = Time.time;
-
-        Damage();
+        if(_bulletprefab != null && _firePoint != null)
+        {
+            // 弾を発射する際にプレイヤーが向いている方向を取得
+            Vector2 shootDirection = new Vector2(_moveInput.x, _moveInput.y);
+            if (shootDirection != Vector2.zero) // 向きがゼロでない場合のみ
+            {
+                GameObject projectile = Instantiate(_bulletprefab, _firePoint.position, Quaternion.identity);
+                // 向きに基づいて弾の回転を設定
+                projectile.transform.up = shootDirection;
+            }
+        }// _firePoint.rotationを使って向いている方向に弾を発射
     }
 
     // アニメーションイベントで呼ばれる関数
