@@ -59,12 +59,6 @@ public class EnemyController : CurrentHP
             {
                 playerHP.Damage(1); // 1ÇÃÉ_ÉÅÅ[ÉW
             }
-            //PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
-            //if (playerController != null)
-            //{
-            //    Debug.Log("Collision with: " + collision.gameObject.name);
-            //    _currentHP.Damage();
-            //}
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)

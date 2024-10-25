@@ -1,6 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 public class CurrentHP : MonoBehaviour
 {
@@ -40,8 +40,8 @@ public class CurrentHP : MonoBehaviour
         // DOTweenを使ってスライダーの値をアニメーションで減らす（Playerのみ）
         if (_hpSlider != null)
         {
-            _hpSlider.DOValue(_hp, 0.5f); // 0.5秒でHPの値にスムーズに変化
-                                          // DOTweenでスライダーの値をアニメーションで減らす
+            // 0.5秒でHPの値にスムーズに変化
+            // DOTweenでスライダーの値をアニメーションで減らす
             _hpSlider.DOValue(_hp, 0.5f).OnUpdate(() =>
             {
                 // アニメーションの進行状況をデバッグログに出力
