@@ -1,18 +1,16 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerController : CurrentHP
 {
     [SerializeField] public float _moveSpeed = 2f; // 移動速度
     [SerializeField] public float _attackCooldown = 0.5f; // 攻撃のクールダウン時間
-    private Rigidbody2D _rb;
-    private Vector2 _moveInput;
-    [SerializeField] public Animator _weaponAnim;
     [SerializeField] public Animator _playerAnim;
     private bool _isAttacking = false;
     [SerializeField] public float _lastAttackTime = 0f;
     [SerializeField] public GameObject _bulletprefab;
     [SerializeField] public Transform _firePoint;
+    private Rigidbody2D _rb;
+    private Vector2 _moveInput;
 
     private void Start()
     {
@@ -29,7 +27,7 @@ public class PlayerController : CurrentHP
 
             HandleAttack();
         }
-     }
+    }
 
     void FixedUpdate()
     {
@@ -60,7 +58,7 @@ public class PlayerController : CurrentHP
     }
     private void ShootBullet()
     {
-        if(_bulletprefab != null && _firePoint != null)
+        if (_bulletprefab != null && _firePoint != null)
         {
             // 弾を発射する際にプレイヤーが向いている方向を取得
             Vector2 shootDirection = new Vector2(_moveInput.x, _moveInput.y);
