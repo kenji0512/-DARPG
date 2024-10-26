@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackController : MonoBehaviour
+public class BulletController : MonoBehaviour
 {
     [SerializeField] private float _speed = 1.0f;
     [SerializeField] private int _damage = 1;
+    [SerializeField] private float _lifeTime = 1;
      // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +14,7 @@ public class AttackController : MonoBehaviour
             _rb.velocity = transform.up * _speed;
         }
 
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, _lifeTime);
     }
 
     // Update is called once per frame
@@ -33,6 +32,11 @@ public class AttackController : MonoBehaviour
             {
                 enemyHP.Damage(_damage);
                 Destroy(gameObject);//’e‚ğíœ
+            }
+            // “G‚â‘¼‚ÌáŠQ•¨‚É“–‚½‚Á‚½‚ç’e‚ğíœ‚·‚éi•K—v‚È‚ç‚Îj
+            if (collision.CompareTag("Wall"))
+            {
+                Destroy(gameObject); // •Ç‚É“–‚½‚Á‚½ê‡‚à’e‚ğíœ
             }
         }
     }

@@ -5,7 +5,6 @@ public class EnemyController : CurrentHP
     [SerializeField] GameObject _player = null;
     [SerializeField] float _speed = 1.0f;
     [SerializeField] float _chaseRange = 5.0f; // 追尾範囲
-    private bool _isPlayerInRange = false;
 
     private Rigidbody2D _rb;
     private CurrentHP _currentHP;
@@ -25,15 +24,9 @@ public class EnemyController : CurrentHP
     // Update is called once per frame
     void Update()
     {
+        StartChasingPlayer();
 
-        if (_isPlayerInRange && _player != null)
-        {
-            StartChasingPlayer();
-        }
-        else
-        {
-            _rb.velocity = Vector2.zero; // プレイヤーが範囲外の場合は停止
-        }
+        //_rb.velocity = Vector2.zero; // プレイヤーが範囲外の場合は停止
     }
     private void StartChasingPlayer()
     {
@@ -61,25 +54,16 @@ public class EnemyController : CurrentHP
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            _isPlayerInRange = true;
-            StartChasingPlayer();
-        }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Player")
-        {
-            _isPlayerInRange = false;
-            _rb.velocity = Vector2.zero; // プレイヤーが範囲外に出たら敵の移動を停止
-        }
-    }
-    private void OmDestroy()
+    private void OnDestroy()
     {
         GameManager.Instance.Remove(this);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        // Gizmoの色を指定
+        Gizmos.color = Color.red;
+        // 追尾範囲を円で描画
+        Gizmos.DrawWireSphere(transform.position, _chaseRange);
     }
 }

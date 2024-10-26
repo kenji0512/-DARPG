@@ -629,6 +629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChangeScene: {fileID: 0}
+  NextStageScene: 
   StartScene: {fileID: 1407845390}
   SceneA: SampleScene
   GameScene: {fileID: 0}
@@ -720,7 +721,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: "\u30B9\u30BF\u30FC\u30C8"
 --- !u!222 &2055842291
 CanvasRenderer:
   m_ObjectHideFlags: 0
